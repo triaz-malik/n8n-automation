@@ -1,229 +1,288 @@
-﻿# n8n Automation Portfolio
+# n8n Automation Portfolio
 
-**30 production-grade [n8n](https://n8n.io) automation workflows** — AI agents, RAG systems, and multi-step pipelines spanning IoT, AWS, e-commerce, video, research, and business operations.
+**30 production-grade n8n automation workflows** — AI agents, RAG pipelines, and multi-step automations spanning IoT, AWS cloud, e-commerce, video production, research, and business operations.
 
-Most workflows are **agentic** (LLM + vector-store retrieval + memory) and built around real integrations. Each project folder ships with:
-- **`workflow.json`** — import directly into n8n (Workflows → Import from File)
-- **A PDF case study** — what it does, the architecture, and the value
+Built and maintained by **[Tahir Riaz Malik](https://github.com/triaz-malik)** · [trmtelcocloudai.com](https://trmtelcocloudai.com)
 
-> 🔑 API keys/credentials are stripped from the exported JSON — connect your own to run.
+---
 
-**Models used across the set:** OpenAI, Anthropic Claude, Google Gemini, Mistral, Cohere, HuggingFace · **Vector stores:** Pinecone, Qdrant, Supabase, Weaviate, Redis
+Most workflows are fully agentic — LLM reasoning + vector-store retrieval + conversation memory — wired to real production integrations. Every project folder contains:
+
+- **`workflow.json`** — import directly into n8n via Workflows → Import from File
+- **`PDF case study`** — architecture diagram, step-by-step breakdown, sample input/output, and credentials guide
+
+> API keys and credentials are stripped from all exported JSON files. Reconnect your own before running.
+
+**Models used:** OpenAI GPT-4 · Anthropic Claude · Google Gemini · Mistral · Cohere · HuggingFace  
+**Vector stores:** Pinecone · Qdrant · Supabase pgvector · Weaviate · Redis
 
 ---
 
 ## 📡 IoT & Industrial Monitoring
 
-### 01. Predictive Maintenance Alert
-An AI agent that ingests equipment telemetry via webhook and predicts likely failures before they happen, grounding its reasoning in historical maintenance records (RAG) and logging alerts to Google Sheets.
+### 01. Predictive Maintenance Alert System
+Ingests equipment sensor telemetry via webhook, semantically matches it against a historical failure signature library (RAG), and predicts failure windows with confidence scores before breakdown occurs. Fires alerts to Slack and logs to Google Sheets.
 
-**Stack:** OpenAI, Weaviate vector store, conversational memory, Google Sheets  
-[📄 Case study (PDF)](01_iot_predictive_maintenance/01_iot_predictive_maintenance_PRO.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](01_iot_predictive_maintenance/workflow.json)
+**Stack:** OpenAI · Weaviate vector store · Window buffer memory · Google Sheets  
+📄 [Case study PDF](01_iot_predictive_maintenance/) · ⚙️ [workflow.json](01_iot_predictive_maintenance/workflow.json)
+
+---
 
 ### 02. Sensor Fault Detector
-Flags anomalous or faulty sensor readings in real time using a retrieval-augmented AI agent that compares incoming values against known-good patterns, then records flagged events.
+Detects faulty sensor readings in real time — stuck values, dead sensors, calibration drift — by comparing incoming readings against known-good patterns in a Supabase vector store. Dispatches work orders automatically.
 
-**Stack:** HuggingFace LLM, Supabase vector store, Google Sheets  
-[📄 Case study (PDF)](02_iot_sensor_fault_detector/02_iot_sensor_fault_detector.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](02_iot_sensor_fault_detector/workflow.json)
+**Stack:** HuggingFace LLM · Supabase vector store · Google Sheets  
+📄 [Case study PDF](02_iot_sensor_fault_detector/) · ⚙️ [workflow.json](02_iot_sensor_fault_detector/workflow.json)
 
-### 03. Smart Home Energy Saver
-An agent that analyses energy-usage data and recommends savings actions, using a Cohere-embedded knowledge base of efficiency strategies.
+---
 
-**Stack:** Cohere embeddings, Supabase vector store, Google Sheets  
-[📄 Case study (PDF)](03_iot_smart_energy_agent/03_iot_smart_energy_agent.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](03_iot_smart_energy_agent/workflow.json)
+### 03. Smart Home Energy Saver Agent
+Analyses smart plug consumption data, identifies waste patterns such as AC running with no occupancy, sends control commands to Home Assistant via HTTP, and delivers weekly savings reports.
+
+**Stack:** Cohere embeddings · Supabase vector store · Home Assistant · Google Sheets  
+📄 [Case study PDF](03_iot_smart_energy_agent/) · ⚙️ [workflow.json](03_iot_smart_energy_agent/workflow.json)
+
+---
 
 ### 13. Machine Downtime Predictor
-A Claude-powered agent that predicts machine downtime risk from operational data, grounded in historical incident records.
+A Claude-powered agent that ingests SCADA telemetry every 15 minutes, matches readings against a Weaviate library of historical failure signatures, and predicts downtime windows hours in advance so production can plan around them.
 
-**Stack:** Anthropic Claude, Weaviate, Google Sheets  
-[📄 Case study (PDF)](13_ml_machine_downtime/13_ml_machine_downtime.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](13_ml_machine_downtime/workflow.json)
+**Stack:** Anthropic Claude · OpenAI embeddings · Weaviate · Google Sheets  
+📄 [Case study PDF](13_ml_machine_downtime/) · ⚙️ [workflow.json](13_ml_machine_downtime/workflow.json)
+
+---
 
 ### 14. Quality Defect Classifier
-Classifies manufacturing defects from inspection inputs using a Claude RAG agent backed by a Redis vector store.
+Processes production line camera images in real time, classifies defect type and severity against a Redis-cached defect knowledge base, routes rejections instantly, and tracks defect rates by shift.
 
-**Stack:** Anthropic Claude, Redis vector store, Google Sheets  
-[📄 Case study (PDF)](14_ml_quality_defect_classifier/14_ml_quality_defect_classifier.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](14_ml_quality_defect_classifier/workflow.json)
+**Stack:** Anthropic Claude · OpenAI embeddings · Redis vector store · Google Sheets  
+📄 [Case study PDF](14_ml_quality_defect_classifier/) · ⚙️ [workflow.json](14_ml_quality_defect_classifier/workflow.json)
+
+---
 
 ### 27. Solar Output Forecaster
-Forecasts solar energy output from input conditions using a Claude RAG agent, logging predictions to Google Sheets.
+Fetches next-day weather forecasts, matches the weather profile against similar historical generation days using vector search, and delivers a 24-hour hourly kWh forecast with confidence bounds for automated grid scheduling.
 
-**Stack:** Anthropic Claude, HuggingFace embeddings, Google Sheets  
-[📄 Case study (PDF)](27_energy_solar_forecaster/27_energy_solar_forecaster.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](27_energy_solar_forecaster/workflow.json)
+**Stack:** Anthropic Claude · HuggingFace embeddings · Supabase · Google Sheets  
+📄 [Case study PDF](27_energy_solar_forecaster/) · ⚙️ [workflow.json](27_energy_solar_forecaster/workflow.json)
 
 ---
 
 ## ☁️ AWS Cloud Pipelines
 
-### 04. AWS Rekognition Image Pipeline
-Runs images through AWS Rekognition for object/label detection, enriches the results, and catalogs them to Google Sheets — useful for moderation or asset tagging.
+### 04. AWS Rekognition Image Intelligence Pipeline
+Sends images through AWS Rekognition for object, label, and text detection at scale. Applies business logic routing by label type and logs confidence-scored results to Google Sheets.
 
-**Stack:** AWS Rekognition, HTTP, Google Sheets  
-[📄 Case study (PDF)](04_aws_rekognition_pipeline/04_aws_rekognition_pipeline.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](04_aws_rekognition_pipeline/workflow.json)
+**Stack:** AWS Rekognition · HTTP Request · Set · Function · Google Sheets  
+📄 [Case study PDF](04_aws_rekognition_pipeline/) · ⚙️ [workflow.json](04_aws_rekognition_pipeline/workflow.json)
 
-### 05. AWS Textract Document Agent
-Documents submitted via Telegram are OCR-processed with AWS Textract, then the extracted structured data is stored in Airtable and archived to S3.
+---
 
-**Stack:** AWS Textract, AWS S3, Telegram, Airtable  
-[📄 Case study (PDF)](05_aws_textract_doc_agent/05_aws_textract_doc_agent.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](05_aws_textract_doc_agent/workflow.json)
+### 05. AWS Textract Document Extraction Agent
+Accepts invoice photos sent to a Telegram bot, uploads them to S3, runs AWS Textract to extract all key-value pairs (vendor, amount, date, PO number), and stores structured records in Airtable — zero manual data entry.
 
-### 06. AWS S3 ⇄ Google Drive Sync
-Watches Google Drive for new files and mirrors them to an AWS S3 bucket automatically — a lightweight cloud backup/sync pipeline.
+**Stack:** AWS Textract · AWS S3 · Telegram · Airtable  
+📄 [Case study PDF](05_aws_textract_doc_agent/) · ⚙️ [workflow.json](05_aws_textract_doc_agent/workflow.json)
 
-**Stack:** Google Drive trigger, AWS S3  
-[📄 Case study (PDF)](06_aws_s3_drive_sync/06_aws_s3_drive_sync.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](06_aws_s3_drive_sync/workflow.json)
+---
+
+### 06. AWS S3 ↔ Google Drive Sync
+Watches Google Drive for new or modified files and mirrors them to the correct AWS S3 bucket path automatically, routing by folder and file type.
+
+**Stack:** Google Drive Trigger · AWS S3 · Merge  
+📄 [Case study PDF](06_aws_s3_drive_sync/) · ⚙️ [workflow.json](06_aws_s3_drive_sync/workflow.json)
 
 ---
 
 ## 📚 RAG & Document Intelligence
 
-### 07. RAG over Financial Documents
-A full retrieval-QA system over financial PDFs: documents are chunked, embedded with Mistral, and stored in Qdrant; a chat interface answers questions grounded in the source files.
+### 07. Financial Documents RAG Assistant
+Watches a folder for new financial PDFs, auto-ingests them into Qdrant with Mistral embeddings, and enables natural language Q&A with exact page citations. Answers in seconds rather than hours of manual reading.
 
-**Stack:** Mistral Cloud, Qdrant, retrieval-QA chain  
-[📄 Case study (PDF)](07_rag_financial_documents/07_rag_financial_documents.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](07_rag_financial_documents/workflow.json)
+**Stack:** Mistral Cloud embeddings · Qdrant · Retrieval-QA chain  
+📄 [Case study PDF](07_rag_financial_documents/) · ⚙️ [workflow.json](07_rag_financial_documents/workflow.json)
 
-### 08. Company Knowledge Bot
-A chat agent that answers employee questions from company documents in Google Drive, auto-indexing new files via a Drive trigger into Pinecone.
+---
 
-**Stack:** Google Gemini, Pinecone, Google Drive, memory  
-[📄 Case study (PDF)](08_rag_company_knowledge_bot/08_rag_company_knowledge_bot.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](08_rag_company_knowledge_bot/workflow.json)
+### 08. Company Knowledge RAG Chatbot
+Auto-indexes Google Drive into Pinecone on file create or update, then answers employee questions with exact document and page citations. Re-indexes automatically when files change.
+
+**Stack:** Google Gemini embeddings · Pinecone · Google Drive · Window buffer memory  
+📄 [Case study PDF](08_rag_company_knowledge_bot/) · ⚙️ [workflow.json](08_rag_company_knowledge_bot/workflow.json)
+
+---
 
 ### 09. Stock Earnings Report Analysis
-Ingests earnings reports and lets an AI agent analyse them with RAG, writing structured findings to Google Docs/Sheets.
+Batch-ingests quarterly earnings PDFs into Pinecone, enables cross-company Q&A using Gemini and GPT-4, and auto-saves full research reports to Google Docs.
 
-**Stack:** Gemini + OpenAI, Pinecone, Google Docs/Sheets  
-[📄 Case study (PDF)](09_rag_stock_earnings/09_rag_stock_earnings.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](09_rag_stock_earnings/workflow.json)
+**Stack:** Google Gemini · OpenAI GPT-4 · Pinecone · Google Docs  
+📄 [Case study PDF](09_rag_stock_earnings/) · ⚙️ [workflow.json](09_rag_stock_earnings/workflow.json)
 
-### 20. Customer Insights Extractor
-Extracts structured insights from customer data using an information-extractor over a Qdrant RAG store, outputting to Google Sheets.
+---
 
-**Stack:** OpenAI, Qdrant, information extractor, Google Sheets  
-[📄 Case study (PDF)](20_ml_customer_insights/20_ml_customer_insights.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](20_ml_customer_insights/workflow.json)
+### 20. Customer Insights Engine
+Scrapes reviews and support tickets, embeds and clusters them in Qdrant, and produces a weekly insight report with themes, sentiment scores, and representative quotes — from thousands of comments to a one-page summary.
 
-### 22. Stock Q&A Assistant
-A chat assistant that answers questions over financial/stock PDFs using a Qdrant-backed retrieval-QA chain.
+**Stack:** OpenAI · Qdrant · k-means clustering · Google Sheets  
+📄 [Case study PDF](20_ml_customer_insights/) · ⚙️ [workflow.json](20_ml_customer_insights/workflow.json)
 
-**Stack:** OpenAI, Qdrant, retrieval-QA  
-[📄 Case study (PDF)](22_finance_stock_analysis_crew/22_finance_stock_analysis_crew.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](22_finance_stock_analysis_crew/workflow.json)
+---
+
+### 22. AI Fundamental Stock Analysis Crew
+Ingests financial filings into Qdrant and answers natural language questions with exact page citations. Full fundamental analysis — revenue, margins, guidance, risks — in minutes rather than hours.
+
+**Stack:** OpenAI GPT-4 · Qdrant · Retrieval-QA chain · Google Drive  
+📄 [Case study PDF](22_finance_stock_analysis_crew/) · ⚙️ [workflow.json](22_finance_stock_analysis_crew/workflow.json)
 
 ---
 
 ## 🛒 E-Commerce & Retail
 
-### 10. Abandoned Cart Recovery
-An agent that drafts personalised cart-recovery emails based on customer/product context and notifies the team via Slack.
+### 10. Abandoned Cart Recovery Email Automation
+Fires 1 hour after cart abandonment, retrieves customer purchase history from Supabase to write a genuinely personalised recovery email, and applies intelligent discount logic based on abandonment history.
 
-**Stack:** OpenAI, Supabase vector store, Slack  
-[📄 Case study (PDF)](10_ecommerce_abandoned_cart/10_ecommerce_abandoned_cart.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](10_ecommerce_abandoned_cart/workflow.json)
+**Stack:** Cohere embeddings · Supabase · OpenAI · Slack  
+📄 [Case study PDF](10_ecommerce_abandoned_cart/) · ⚙️ [workflow.json](10_ecommerce_abandoned_cart/workflow.json)
 
-### 11. WooCommerce Support Agent
-A 31-node conversational support agent for WooCommerce: looks up orders, fetches live DHL tracking, and answers customers through a chat interface using sub-workflow tools.
+---
 
-**Stack:** OpenAI, WooCommerce, DHL, sub-workflow tools, chat trigger  
-[📄 Case study (PDF)](11_ecommerce_woo_support_agent/11_ecommerce_woo_support_agent.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](11_ecommerce_woo_support_agent/workflow.json)
+### 11. AI-Powered WooCommerce Support Agent
+A 31-node conversational support agent that fetches live WooCommerce order data and real DHL tracking, resolves order queries autonomously, and only escalates genuinely complex cases.
 
-### 12. Inventory Slack Alerts
-Monitors stock levels and raises intelligent low-inventory alerts to Slack, with a RAG knowledge base for reorder context.
+**Stack:** OpenAI · WooCommerce REST API · DHL Tracking API · Sub-workflow tools  
+📄 [Case study PDF](11_ecommerce_woo_support_agent/) · ⚙️ [workflow.json](11_ecommerce_woo_support_agent/workflow.json)
 
-**Stack:** OpenAI, Pinecone, Slack, Google Sheets  
-[📄 Case study (PDF)](12_ecommerce_inventory_alerts/12_ecommerce_inventory_alerts.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](12_ecommerce_inventory_alerts/workflow.json)
+---
 
-### 26. Competitor Price Monitor
-Scrapes competitor pricing and analyses changes with a Claude RAG agent, alerting via Slack.
+### 12. Inventory Slack Alert System
+Monitors every SKU continuously, computes days-to-stockout from real sales velocity, and fires tiered Slack alerts with supplier contacts and recommended reorder quantities — catching problems 2 weeks before a stock-out.
 
-**Stack:** Anthropic Claude, Supabase, Slack  
-[📄 Case study (PDF)](26_data_competitor_price_monitor/26_data_competitor_price_monitor.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](26_data_competitor_price_monitor/workflow.json)
+**Stack:** Cohere embeddings · Pinecone · OpenAI · Slack · Google Sheets  
+📄 [Case study PDF](12_ecommerce_inventory_alerts/) · ⚙️ [workflow.json](12_ecommerce_inventory_alerts/workflow.json)
+
+---
+
+### 26. Competitor Price Scraper and Alert
+Scrapes competitor pricing pages daily at 06:00, detects changes using vector semantic diff rather than brittle HTML selectors, and delivers a structured change brief — including a strategic read — via Slack within minutes.
+
+**Stack:** Anthropic Claude · OpenAI embeddings · Supabase · Slack  
+📄 [Case study PDF](26_data_competitor_price_monitor/) · ⚙️ [workflow.json](26_data_competitor_price_monitor/workflow.json)
 
 ---
 
 ## 🎬 Video & Content Creation
 
-### 15. Hacker News to Video
-Turns top Hacker News stories into narrated videos and publishes them across YouTube, Twitter, LinkedIn, Dropbox, OneDrive and Drive. 39 nodes, fully automated.
+### 15. Hacker News to Video Content Pipeline
+Monitors Hacker News for trending stories, writes a 75-second script with GPT-4, generates scene images with Leonardo AI, animates them with Runway Gen-2, and uploads the finished video to S3 — fully automated daily.
 
-**Stack:** OpenAI, AWS S3, YouTube, Twitter, LinkedIn, Dropbox, OneDrive  
-[📄 Case study (PDF)](15_video_hn_to_video/15_video_hn_to_video.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](15_video_hn_to_video/workflow.json)
-
-### 16. Multimodal Video Narrator
-Generates narrated visual content end-to-end — LLM script, OpenAI image generation, image editing and assembly — saving the result to Google Drive.
-
-**Stack:** OpenAI (text + image), image editing, Google Drive  
-[📄 Case study (PDF)](16_video_multimodal_narrator/16_video_multimodal_narrator.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](16_video_multimodal_narrator/workflow.json)
-
-### 17. YouTube Comment Summarizer
-Summarizes and extracts themes from YouTube comments with a RAG agent and posts the insights digest to Slack.
-
-**Stack:** OpenAI, Pinecone, Slack, Google Sheets  
-[📄 Case study (PDF)](17_video_youtube_insights/17_video_youtube_insights.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](17_video_youtube_insights/workflow.json)
-
-### 23. Social Media AI Agent
-A Telegram-driven content agent that generates and publishes posts to LinkedIn and Twitter on a schedule, with Airtable as the content store.
-
-**Stack:** OpenAI, Telegram, LinkedIn, Twitter, Airtable  
-[📄 Case study (PDF)](23_content_social_amplifier/23_content_social_amplifier.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](23_content_social_amplifier/workflow.json)
-
-### 24. Brand Image Generator (9:16)
-Generates branded 9:16 images from content briefs using OpenAI image generation, enriched with a Wikipedia research tool and managed in Airtable.
-
-**Stack:** OpenAI images, Wikipedia tool, Airtable  
-[📄 Case study (PDF)](24_content_brand_image_generator/24_content_brand_image_generator.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](24_content_brand_image_generator/workflow.json)
+**Stack:** OpenAI · Leonardo AI · Runway ML · AWS S3 · Hacker News API  
+📄 [Case study PDF](15_video_hn_to_video/) · ⚙️ [workflow.json](15_video_hn_to_video/workflow.json)
 
 ---
 
-## 🔬 Research & Data Agents
+### 16. Multimodal Video Narration Agent
+Downloads any video, extracts frames at 1fps, sends batches to GPT-4 Vision, and assembles a chronological timestamped narration script — turning silent footage into ready-to-record narration in minutes.
 
-### 18. Self-Hosted Deep Research Agent
-A 132-node autonomous research agent (the flagship): plans sub-queries, crawls the web, synthesises with Gemini + OpenAI, and writes a sourced report to Notion. Form-triggered with orchestrated sub-workflows.
-
-**Stack:** OpenAI + Gemini, web crawling, Notion, sub-workflows  
-[📄 Case study (PDF)](18_research_deep_agent/18_research_deep_agent.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](18_research_deep_agent/workflow.json)
-
-### 25. Autonomous Research Crawler
-An autonomous agent that crawls the web, deduplicates and structures findings, and persists them to Supabase — a self-directed research pipeline.
-
-**Stack:** OpenAI, web crawling, Supabase, sub-workflow tools  
-[📄 Case study (PDF)](25_research_autonomous_crawler/25_research_autonomous_crawler.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](25_research_autonomous_crawler/workflow.json)
-
-### 19. Vector Anomaly Detection
-Implements medoid-based anomaly detection over a dataset (crops example) with a pure HTTP + code pipeline — an ML technique demo without external AI APIs.
-
-**Stack:** HTTP, custom code, vector math  
-[📄 Case study (PDF)](19_data_vector_anomaly_detection/19_data_vector_anomaly_detection.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](19_data_vector_anomaly_detection/workflow.json)
+**Stack:** OpenAI GPT-4 Vision · ffmpeg · Google Drive  
+📄 [Case study PDF](16_video_multimodal_narrator/) · ⚙️ [workflow.json](16_video_multimodal_narrator/workflow.json)
 
 ---
 
-## 🏢 Business Operations (HR · Legal · Healthcare · Media)
+### 17. YouTube Comment Insight Extractor
+Ingests up to 10,000 YouTube comments, clusters them by theme using vector embeddings, runs sentiment analysis, and produces a structured insight report with representative quotes per theme.
 
-### 21. AI Recruitment & Job Evaluation
-Handles job posting and candidate evaluation: form intake, résumé parsing, AI scoring against criteria, interview scheduling via Calendar, all tracked in Airtable.
+**Stack:** OpenAI · Pinecone · Slack · Google Sheets  
+📄 [Case study PDF](17_video_youtube_insights/) · ⚙️ [workflow.json](17_video_youtube_insights/workflow.json)
 
-**Stack:** OpenAI, Airtable, Google Calendar, form intake  
-[📄 Case study (PDF)](21_hr_ai_recruitment/21_hr_ai_recruitment.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](21_hr_ai_recruitment/workflow.json)
+---
+
+### 23. Social Media Content Amplifier
+Monitors Hacker News on a schedule, repurposes top stories into LinkedIn posts and tweets using GPT-4, deduplicates against Airtable history, and publishes automatically — zero human involvement required.
+
+**Stack:** OpenAI · LinkedIn API · Twitter/X API · Airtable  
+📄 [Case study PDF](23_content_social_amplifier/) · ⚙️ [workflow.json](23_content_social_amplifier/workflow.json)
+
+---
+
+### 24. Brand-Consistent 9:16 AI Image Generator
+Reads brand guidelines and SEO keywords from Airtable, generates optimised DALL-E 3 prompts enforcing brand colours and no-text rules, and delivers 5 ready-to-post 9:16 portrait image variants.
+
+**Stack:** OpenAI DALL-E 3 · Airtable · Google Drive  
+📄 [Case study PDF](24_content_brand_image_generator/) · ⚙️ [workflow.json](24_content_brand_image_generator/workflow.json)
+
+---
+
+## 🔬 Research & Data Intelligence
+
+### 18. AI Deep Research Agent
+A 132-node autonomous research agent: decomposes a research question into sub-queries, crawls multiple web sources, synthesises findings using OpenAI and Gemini, and writes a sourced report to Notion — fully orchestrated via sub-workflows.
+
+**Stack:** OpenAI · Google Gemini · Web crawling · Notion · Sub-workflows  
+📄 [Case study PDF](18_research_deep_agent/) · ⚙️ [workflow.json](18_research_deep_agent/workflow.json)
+
+---
+
+### 19. Vector DB Anomaly Detector
+Uses Qdrant vector clustering with Scipy DBSCAN to find genuine anomalies in logs, metrics, and transactions — detecting novel failure patterns that no threshold-based rule would catch. Near-zero false positive rate.
+
+**Stack:** Qdrant · Scipy · HTTP · Custom code  
+📄 [Case study PDF](19_data_vector_anomaly_detection/) · ⚙️ [workflow.json](19_data_vector_anomaly_detection/workflow.json)
+
+---
+
+### 25. Autonomous AI Web Crawler
+A self-directing agent that visits company homepages, extracts all external links using sub-workflow tools, identifies social platform profiles, and builds complete digital footprint records in Supabase — processes 100 companies overnight.
+
+**Stack:** OpenAI · Supabase · Sub-workflow tools (Text scraper + URL scraper)  
+📄 [Case study PDF](25_research_autonomous_crawler/) · ⚙️ [workflow.json](25_research_autonomous_crawler/workflow.json)
+
+---
+
+## 🏢 Business Operations
+
+### 21. AI HR Recruitment and Candidate Evaluation
+Handles end-to-end recruitment: form intake, CV upload to Drive, PDF text extraction, AI scoring against a role requirements matrix, shortlist/reject routing, personalised email outreach, and interview scheduling via Google Calendar — all tracked in Airtable.
+
+**Stack:** OpenAI · Airtable · Google Drive · Google Calendar · Structured output parser  
+📄 [Case study PDF](21_hr_ai_recruitment/) · ⚙️ [workflow.json](21_hr_ai_recruitment/workflow.json)
+
+---
 
 ### 28. NDA Risk Detector
-Reviews NDA text and flags risky clauses using a RAG agent grounded in a clause-risk knowledge base.
+Parses any NDA at clause level, scores each clause Red/Amber/Green against a company playbook stored in Redis, suggests specific redline language for flagged clauses, and delivers a one-page risk brief in under 2 minutes.
 
-**Stack:** OpenAI, Redis vector store, Google Sheets  
-[📄 Case study (PDF)](28_legal_nda_risk_detector/28_legal_nda_risk_detector.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](28_legal_nda_risk_detector/workflow.json)
-
-### 29. Healthcare Appointment Agent
-Sends appointment notifications and answers patient questions through a RAG agent, with Slack/WhatsApp delivery.
-
-**Stack:** OpenAI, Supabase, Slack/WhatsApp  
-[📄 Case study (PDF)](29_healthcare_whatsapp_agent/29_healthcare_whatsapp_agent.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](29_healthcare_whatsapp_agent/workflow.json)
-
-### 30. Podcast Transcribe & Publish
-Transcribes podcast audio and publishes show notes/summaries via a Claude RAG agent, notifying through Slack.
-
-**Stack:** Anthropic Claude, Pinecone, Slack  
-[📄 Case study (PDF)](30_media_podcast_production/30_media_podcast_production.pdf)  &nbsp;·&nbsp;  [⚙️ workflow.json](30_media_podcast_production/workflow.json)
+**Stack:** OpenAI GPT-4 · HuggingFace embeddings · Redis vector store · Google Sheets  
+📄 [Case study PDF](28_legal_nda_risk_detector/) · ⚙️ [workflow.json](28_legal_nda_risk_detector/workflow.json)
 
 ---
 
-### How to use
-1. Open n8n → **Workflows → Import from File** → pick any `workflow.json`.
-2. Reconnect credentials for the services that workflow uses.
-3. Adjust Google Sheet / Drive / Airtable IDs and triggers to your environment.
+### 29. Healthcare Appointment Notification Agent
+Sends personalised WhatsApp appointment reminders 24h and 2h before appointments, handles patient replies (Confirm / Cancel / Reschedule) autonomously, and updates the HMS in real time. Slack alert fires if no response by T-4h.
 
-_30 workflows · agentic AI + automation · documented with per-project PDF case studies._
+**Stack:** OpenAI · Supabase · WhatsApp Business API · Slack  
+📄 [Case study PDF](29_healthcare_whatsapp_agent/) · ⚙️ [workflow.json](29_healthcare_whatsapp_agent/workflow.json)
 
+---
+
+### 30. Podcast Transcription and Auto-Publishing
+Processes raw audio with Whisper, generates show notes, an SEO blog post, a LinkedIn post, a Twitter thread, and timestamped chapter markers using Claude — then publishes to WordPress, updates RSS, and notifies the team via Slack. Full episode post-production in 15 minutes.
+
+**Stack:** Anthropic Claude · OpenAI Whisper · Cohere · Pinecone · WordPress · Slack  
+📄 [Case study PDF](30_media_podcast_production/) · ⚙️ [workflow.json](30_media_podcast_production/workflow.json)
+
+---
+
+## How to use
+
+1. Open n8n → **Workflows** → **Import from File** → select any `workflow.json`
+2. Reconnect credentials for the services that workflow uses
+3. Update Google Sheet / Drive / Airtable IDs and webhook URLs to match your environment
+4. Each PDF case study documents the exact input format, output format, and credential setup
+
+---
+
+## Author
+
+**Tahir Riaz Malik**  
+AWS ML Specialty · AWS SAP-C02 · Azure DP-100 · PMP · PMI-ACP  
+[github.com/triaz-malik](https://github.com/triaz-malik) · [trmtelcocloudai.com](https://trmtelcocloudai.com)
